@@ -1,22 +1,21 @@
-import {useState,useEffect} from 'react'   
+import { useSelector, useDispatch } from 'react-redux'
+import { decrement, increment } from '../redux/CounterSlice'
 
-function Example({cities}){
-    const [count, setCount] = useState(0)
-
-      // definizione dell'effetto: 
-    useEffect(() => {
-        localStorage.setItem('count', count.toString())
-        document.title=`Conteggio: ${count}`
-    },[count,cities]);
-
-    // const handleClick = () =>{
-    //         setCount(count + 1)
-    //         document.title =`Conteggio: ${count}`  
-    //     }
+function Example(){
+    const count = useSelector((state) => state.counter.value)
+    const dispatch = useDispatch()
+    //dispatch(mandare ordini,voglio modificarlo ecc....)
     return(
     <div>
      <p>Conteggio: {count} </p>
-     <button onClick={()=> setCount(count + 1)}>Incrementa</button>
+     <button className='mr-3' 
+     onClick={() => dispatch(increment())}>
+        Incrementa +
+    </button>
+     <button className='mr-3' 
+     onClick={() => dispatch(decrement())}>
+        Decrementa - 
+    </button>
     </div>
     )
 }

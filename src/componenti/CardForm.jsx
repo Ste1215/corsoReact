@@ -1,12 +1,14 @@
-import { useState } from 'react'
-
-function CardForm({addCity}){
-    const [formData,setFormData] = useState({
+import { useState} from 'react'
+import { useDispatch } from 'react-redux'
+import { add } from '../redux/citiesSlice'
+function CardForm(){
+  const dispatch = useDispatch();
+  const [formData,setFormData] = useState({
         name: "",
         description: "",
         img: "",
         isVisited: false,
-    })
+  });
     const handleInputChange= (e)=>{
           const {name, type, value, checked} = e.target
           const inputValue = type == "checkbox" ? checked : value
@@ -18,16 +20,24 @@ function CardForm({addCity}){
     const handleSubmit= (e)=>{
         e.preventDefault()
         const city=
-          {  id: Math.random(),
+          {
+            id: Math.random(),
             name: formData.name,
             description: formData.description,
             img: formData.img,
             isVisited : formData.isVisited,
           };
-          addCity(city)
+          setFormData({
+            name: "",
+            description: "",
+            img: "",
+            isVisited: false,
+          })
+          dispatch(add(city))
     }
         return(
-        <form onSubmit={handleSubmit}
+        <form
+         onSubmit={handleSubmit}
          className="flex flex-col gap-3 w-80 mb-10 bg-zinc-900 p-5 rounded-lg">
            <div className="flex flex-col">
             <label>Nome Citta</label>
@@ -53,7 +63,9 @@ function CardForm({addCity}){
              checked={formData.isVisited} 
              onChange={handleInputChange}/>
            </div>
-             <button className="bg-zinc-700" type="submit">Aggiungi Card</button>
+             <button className="bg-zinc-700" type="submit">
+              Aggiungi Card
+              </button>
         </form>
         )
 }
